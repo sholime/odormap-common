@@ -17,9 +17,8 @@ describe('CreateReportRequest', () => {
     expect(CreateReportRequest.safeParse({ ...validReport, strength: 6 }).success).toBe(false);
   });
 
-  it('accepts a report without a smell kind', () => {
-    const { smellKind, ...withoutKind } = validReport;
-    expect(CreateReportRequest.safeParse(withoutKind).success).toBe(true);
+  it('accepts a report with only a location', () => {
+    expect(CreateReportRequest.safeParse({ location: validReport.location }).success).toBe(true);
   });
 
   it('rejects an unknown smell kind', () => {

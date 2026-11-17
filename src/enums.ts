@@ -18,7 +18,7 @@ export const SMELL_KINDS = [
 ] as const;
 export type SmellKind = (typeof SMELL_KINDS)[number];
 
-/** How strong the smell is, from 1 (barely noticeable) to 5 (unbearable). */
+/** How strong the smell is, from 1 (barely noticeable) to 5 (unbearable), if the person can judge it. */
 export const SMELL_STRENGTHS = [1, 2, 3, 4, 5] as const;
 export type SmellStrength = (typeof SMELL_STRENGTHS)[number];
 
