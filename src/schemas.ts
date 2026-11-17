@@ -187,14 +187,21 @@ export const CreateReportRequest = z
   });
 export type CreateReportRequest = z.infer<typeof CreateReportRequest>;
 
-/** What the reporter can change after sending a report. */
+/** What the reporter can change after sending a report. Send only the fields that change. */
 export const UpdateReportRequest = z
   .object({
+    strength: SmellStrengthSchema.optional(),
+    smellKind: SmellKindSchema.optional(),
+    smellKindOther: z.string().trim().min(1).max(100).optional(),
     duration: DurationSchema.optional(),
     comment: z.string().trim().max(500).optional(),
   })
-  .refine((r) => r.duration !== undefined || r.comment !== undefined, {
+  .refine((r) => Object.values(r).some((value) => value !== undefined), {
     message: 'Nothing to update',
+  })
+  .refine((r) => r.smellKind !== 'other' || r.smellKindOther !== undefined, {
+    message: 'Describe the smell when choosing "other"',
+    path: ['smellKindOther'],
   });
 export type UpdateReportRequest = z.infer<typeof UpdateReportRequest>;
 
