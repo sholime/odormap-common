@@ -3,7 +3,7 @@
 // the validation schemas and the translations are all built from it.
 // To add a value, add it here and give it a label in labels.ts.
 
-/** What the smell is like, as chosen by the person reporting it. */
+/** What the smell is like, if the person reporting it can tell. */
 export const SMELL_KINDS = [
   'garbage',
   'rotten_meat',

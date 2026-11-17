@@ -174,7 +174,8 @@ export const CreateReportRequest = z
     /** When the smell was noticed. The server uses "now" if missing. */
     observedAt: Timestamp.optional(),
     strength: SmellStrengthSchema,
-    smellKind: SmellKindSchema,
+    /** Optional: people often notice a bad smell without knowing what it is. */
+    smellKind: SmellKindSchema.optional(),
     /** Free text, only when smellKind is 'other'. */
     smellKindOther: z.string().trim().min(1).max(100).optional(),
     duration: DurationSchema.default('not_set'),
@@ -208,7 +209,7 @@ export const SmellReport = z.object({
   location: Point,
   locationAccuracyM: z.number().optional(),
   strength: SmellStrengthSchema,
-  smellKind: SmellKindSchema,
+  smellKind: SmellKindSchema.optional(),
   smellKindOther: z.string().optional(),
   duration: DurationSchema,
   comment: z.string().optional(),
