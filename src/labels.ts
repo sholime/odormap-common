@@ -22,6 +22,7 @@ export type Labels = {
 /** Serbian, Latin script. */
 const sr: Labels = {
   smellKind: {
+    not_set: 'Nije navedeno',
     garbage: 'Smeće',
     rotten_meat: 'Trulo meso',
     pig_manure: 'Svinjski stajnjak',
@@ -62,6 +63,7 @@ const sr: Labels = {
 /** Hungarian. */
 const hu: Labels = {
   smellKind: {
+    not_set: 'Nincs megadva',
     garbage: 'Szemét',
     rotten_meat: 'Rothadó hús',
     pig_manure: 'Sertéstrágya',

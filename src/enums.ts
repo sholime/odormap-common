@@ -3,8 +3,12 @@
 // the validation schemas and the translations are all built from it.
 // To add a value, add it here and give it a label in labels.ts.
 
-/** What the smell is like, if the person reporting it can tell. */
+/**
+ * What the smell is like. 'not_set' means the person did not say,
+ * which is common: people often notice a smell without knowing its cause.
+ */
 export const SMELL_KINDS = [
+  'not_set',
   'garbage',
   'rotten_meat',
   'pig_manure',
