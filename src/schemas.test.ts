@@ -48,6 +48,15 @@ describe('UpdateReportRequest', () => {
     expect(UpdateReportRequest.safeParse({}).success).toBe(false);
     expect(UpdateReportRequest.safeParse({ duration: '1_to_3_hours' }).success).toBe(true);
   });
+
+  it('can change strength and smell kind', () => {
+    expect(UpdateReportRequest.safeParse({ strength: 2, smellKind: 'smoke' }).success).toBe(true);
+    expect(UpdateReportRequest.safeParse({ strength: 9 }).success).toBe(false);
+  });
+
+  it('requires a description when changing the smell kind to other', () => {
+    expect(UpdateReportRequest.safeParse({ smellKind: 'other' }).success).toBe(false);
+  });
 });
 
 describe('RegisterRequest', () => {
