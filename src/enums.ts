@@ -4,10 +4,10 @@
 // To add a value, add it here and give it a label in labels.ts.
 
 /**
- * What the smell is like. 'not_set' means the person did not say,
- * which is common: people often notice a smell without knowing its cause.
+ * What the odor is like. 'not_set' means the person did not say,
+ * which is common: people often notice an odor without knowing its cause.
  */
-export const SMELL_KINDS = [
+export const ODOR_KINDS = [
   'not_set',
   'garbage',
   'rotten_meat',
@@ -20,14 +20,14 @@ export const SMELL_KINDS = [
   'sewage',
   'other',
 ] as const;
-export type SmellKind = (typeof SMELL_KINDS)[number];
+export type OdorKind = (typeof ODOR_KINDS)[number];
 
-/** How strong the smell is, from 1 (barely noticeable) to 5 (unbearable). */
-export const SMELL_STRENGTHS = [1, 2, 3, 4, 5] as const;
-export type SmellStrength = (typeof SMELL_STRENGTHS)[number];
+/** How strong the odor is, from 1 (barely noticeable) to 5 (unbearable). */
+export const ODOR_STRENGTHS = [1, 2, 3, 4, 5] as const;
+export type OdorStrength = (typeof ODOR_STRENGTHS)[number];
 
 /**
- * How long the smell lasted. Starts as 'not_set' and can be filled in later.
+ * How long the odor lasted. Starts as 'not_set' and can be filled in later.
  * 'not_set' is shown to people as "N/A".
  */
 export const DURATIONS = [

@@ -2,13 +2,13 @@
 
 Common TypeScript types, validation schemas and translations used by the OdorMap API, web and mobile apps.
 
-OdorMap lets residents report bad smells from their phones. Each report is stored with its location and the wind at that moment, so smells can be traced back to their sources. It starts in Bačka Topola.
+OdorMap lets residents report bad odors from their phones. Each report is stored with its location and the wind at that moment, so odors can be traced back to their sources. It starts in Bačka Topola.
 
 ## What is in here
 
 | File | What it holds |
 | --- | --- |
-| `src/enums.ts` | Fixed lists of values: smell kinds, strengths, durations, source kinds, languages, roles |
+| `src/enums.ts` | Fixed lists of values: odor kinds, strengths, durations, source kinds, languages, roles |
 | `src/schemas.ts` | The shape of every request and response the API accepts or returns, with validation rules |
 | `src/labels.ts` | Serbian (Latin) and Hungarian words for every fixed value, for showing in the apps |
 | `src/index.ts` | Exports everything above |
@@ -19,7 +19,7 @@ Schemas are written with [Zod](https://zod.dev). One schema gives both a runtime
 import { CreateReportRequest, LABELS } from '@odormap/common';
 
 const report = CreateReportRequest.parse(requestBody); // throws if invalid
-const label = LABELS.sr.smellKind[report.smellKind];  // e.g. "Svinjski stajnjak"
+const label = LABELS.sr.odorKind[report.odorKind];  // e.g. "Svinjski stajnjak"
 ```
 
 ## Using it in another OdorMap project
@@ -41,7 +41,7 @@ npm run typecheck  # check types without building
 npm run build      # compile to dist/
 ```
 
-## Adding a new value (for example a smell kind)
+## Adding a new value (for example an odor kind)
 
 1. Add it to the list in `src/enums.ts`.
 2. Add its Serbian and Hungarian label in `src/labels.ts`. TypeScript reports an error until you do.

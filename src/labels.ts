@@ -2,26 +2,26 @@
 // Every value in enums.ts must have a label here in every language;
 // TypeScript reports an error if one is missing.
 //
-// Use: LABELS.hu.smellKind.pig_manure  ->  "Sertéstrágya"
+// Use: LABELS.hu.odorKind.pig_manure  ->  "Sertéstrágya"
 
 import type {
   Duration,
   Language,
-  SmellKind,
-  SmellStrength,
+  OdorKind,
+  OdorStrength,
   SourceKind,
 } from './enums.js';
 
 export type Labels = {
-  smellKind: Record<SmellKind, string>;
-  smellStrength: Record<SmellStrength, string>;
+  odorKind: Record<OdorKind, string>;
+  odorStrength: Record<OdorStrength, string>;
   duration: Record<Duration, string>;
   sourceKind: Record<SourceKind, string>;
 };
 
 /** Serbian, Latin script. */
 const sr: Labels = {
-  smellKind: {
+  odorKind: {
     not_set: 'Nije navedeno',
     garbage: 'Smeće',
     rotten_meat: 'Trulo meso',
@@ -34,7 +34,7 @@ const sr: Labels = {
     sewage: 'Kanalizacija',
     other: 'Drugo',
   },
-  smellStrength: {
+  odorStrength: {
     1: 'Jedva primetan',
     2: 'Slab',
     3: 'Jasan',
@@ -62,7 +62,7 @@ const sr: Labels = {
 
 /** Hungarian. */
 const hu: Labels = {
-  smellKind: {
+  odorKind: {
     not_set: 'Nincs megadva',
     garbage: 'Szemét',
     rotten_meat: 'Rothadó hús',
@@ -75,7 +75,7 @@ const hu: Labels = {
     sewage: 'Szennyvíz',
     other: 'Egyéb',
   },
-  smellStrength: {
+  odorStrength: {
     1: 'Alig érezhető',
     2: 'Gyenge',
     3: 'Határozott',

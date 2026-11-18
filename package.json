@@ -1,6 +1,6 @@
 {
   "name": "@odormap/common",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Common TypeScript types, validation schemas and translations used by the OdorMap API, web and mobile apps.",
   "type": "module",
   "main": "dist/index.js",
