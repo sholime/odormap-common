@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CreateReportRequest, RegisterRequest, ReportsQuery, UpdateReportRequest } from './schemas.js';
+import { CreateReportRequest, GuestLoginRequest, RegisterRequest, ReportsQuery, UpdateReportRequest } from './schemas.js';
 
 const validReport = {
   location: { lat: 45.8155, lon: 19.6318 },
@@ -64,6 +64,13 @@ describe('RegisterRequest', () => {
     const base = { email: 'ana@example.com', password: 'long-enough', displayName: 'Ana', language: 'sr' };
     expect(RegisterRequest.safeParse({ ...base, acceptPrivacy: false }).success).toBe(false);
     expect(RegisterRequest.safeParse({ ...base, acceptPrivacy: true }).success).toBe(true);
+  });
+});
+
+describe('GuestLoginRequest', () => {
+  it('requires a language and accepting the privacy notice', () => {
+    expect(GuestLoginRequest.safeParse({ language: 'hu', acceptPrivacy: true }).success).toBe(true);
+    expect(GuestLoginRequest.safeParse({ language: 'hu' }).success).toBe(false);
   });
 });
 

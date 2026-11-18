@@ -75,6 +75,18 @@ export const GoogleLoginRequest = z.object({
 });
 export type GoogleLoginRequest = z.infer<typeof GoogleLoginRequest>;
 
+/**
+ * Use the app without an account. The server creates a guest account with no email
+ * or password; the app keeps its tokens on the phone. A guest can later register or
+ * sign in with Google to keep their reports in a full account.
+ */
+export const GuestLoginRequest = z.object({
+  language: LanguageSchema,
+  /** The person must accept the privacy notice, as for any account. */
+  acceptPrivacy: z.literal(true),
+});
+export type GuestLoginRequest = z.infer<typeof GuestLoginRequest>;
+
 export const RefreshRequest = z.object({
   refreshToken: z.string().min(1),
 });
@@ -89,7 +101,10 @@ export type AuthTokens = z.infer<typeof AuthTokens>;
 /** The logged-in user's own profile. */
 export const User = z.object({
   id: z.uuid(),
-  email: z.email(),
+  /** Missing for guests. */
+  email: z.email().optional(),
+  /** True for an account made with "continue without account". */
+  isGuest: z.boolean(),
   displayName: z.string(),
   language: LanguageSchema,
   role: RoleSchema,
