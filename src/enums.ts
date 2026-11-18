@@ -26,19 +26,6 @@ export type OdorKind = (typeof ODOR_KINDS)[number];
 export const ODOR_STRENGTHS = [1, 2, 3, 4, 5] as const;
 export type OdorStrength = (typeof ODOR_STRENGTHS)[number];
 
-/**
- * How long the odor lasted. Starts as 'not_set' and can be filled in later.
- * 'not_set' is shown to people as "N/A".
- */
-export const DURATIONS = [
-  'not_set',
-  'under_15_min',
-  '15_to_60_min',
-  '1_to_3_hours',
-  'over_3_hours',
-] as const;
-export type Duration = (typeof DURATIONS)[number];
-
 /** What kind of place a known pollution source is. */
 export const SOURCE_KINDS = [
   'landfill',
