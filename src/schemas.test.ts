@@ -4,7 +4,7 @@ import { CreateReportRequest, RegisterRequest, ReportsQuery, UpdateReportRequest
 const validReport = {
   location: { lat: 45.8155, lon: 19.6318 },
   strength: 4,
-  smellKind: 'pig_manure',
+  odorKind: 'pig_manure',
 };
 
 describe('CreateReportRequest', () => {
@@ -17,9 +17,9 @@ describe('CreateReportRequest', () => {
     expect(CreateReportRequest.safeParse({ ...validReport, strength: 6 }).success).toBe(false);
   });
 
-  it('sets the smell kind to not_set when it is missing', () => {
-    const { smellKind, ...withoutKind } = validReport;
-    expect(CreateReportRequest.parse(withoutKind).smellKind).toBe('not_set');
+  it('sets the odor kind to not_set when it is missing', () => {
+    const { odorKind, ...withoutKind } = validReport;
+    expect(CreateReportRequest.parse(withoutKind).odorKind).toBe('not_set');
   });
 
   it('requires a strength', () => {
@@ -27,14 +27,14 @@ describe('CreateReportRequest', () => {
     expect(CreateReportRequest.safeParse(withoutStrength).success).toBe(false);
   });
 
-  it('rejects an unknown smell kind', () => {
-    expect(CreateReportRequest.safeParse({ ...validReport, smellKind: 'roses' }).success).toBe(false);
+  it('rejects an unknown odor kind', () => {
+    expect(CreateReportRequest.safeParse({ ...validReport, odorKind: 'roses' }).success).toBe(false);
   });
 
-  it('requires a description when the smell kind is other', () => {
-    expect(CreateReportRequest.safeParse({ ...validReport, smellKind: 'other' }).success).toBe(false);
+  it('requires a description when the odor kind is other', () => {
+    expect(CreateReportRequest.safeParse({ ...validReport, odorKind: 'other' }).success).toBe(false);
     expect(
-      CreateReportRequest.safeParse({ ...validReport, smellKind: 'other', smellKindOther: 'Burnt plastic' }).success,
+      CreateReportRequest.safeParse({ ...validReport, odorKind: 'other', odorKindOther: 'Burnt plastic' }).success,
     ).toBe(true);
   });
 
@@ -49,13 +49,13 @@ describe('UpdateReportRequest', () => {
     expect(UpdateReportRequest.safeParse({ duration: '1_to_3_hours' }).success).toBe(true);
   });
 
-  it('can change strength and smell kind', () => {
-    expect(UpdateReportRequest.safeParse({ strength: 2, smellKind: 'smoke' }).success).toBe(true);
+  it('can change strength and odor kind', () => {
+    expect(UpdateReportRequest.safeParse({ strength: 2, odorKind: 'smoke' }).success).toBe(true);
     expect(UpdateReportRequest.safeParse({ strength: 9 }).success).toBe(false);
   });
 
-  it('requires a description when changing the smell kind to other', () => {
-    expect(UpdateReportRequest.safeParse({ smellKind: 'other' }).success).toBe(false);
+  it('requires a description when changing the odor kind to other', () => {
+    expect(UpdateReportRequest.safeParse({ odorKind: 'other' }).success).toBe(false);
   });
 });
 

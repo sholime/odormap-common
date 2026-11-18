@@ -12,8 +12,8 @@ import {
   DURATIONS,
   LANGUAGES,
   ROLES,
-  SMELL_KINDS,
-  SMELL_STRENGTHS,
+  ODOR_KINDS,
+  ODOR_STRENGTHS,
   SOURCE_KINDS,
 } from './enums.js';
 
@@ -38,8 +38,8 @@ const Timestamp = z.iso.datetime();
 
 // Schemas for the fixed lists in enums.ts. They end in "Schema" because
 // enums.ts already uses the plain names for the TypeScript types.
-export const SmellKindSchema = z.enum(SMELL_KINDS);
-export const SmellStrengthSchema = z.union(SMELL_STRENGTHS.map((n) => z.literal(n)));
+export const OdorKindSchema = z.enum(ODOR_KINDS);
+export const OdorStrengthSchema = z.union(ODOR_STRENGTHS.map((n) => z.literal(n)));
 export const DurationSchema = z.enum(DURATIONS);
 export const SourceKindSchema = z.enum(SOURCE_KINDS);
 export const LanguageSchema = z.enum(LANGUAGES);
@@ -121,7 +121,7 @@ export const Area = z.object({
 export type Area = z.infer<typeof Area>;
 
 // ---------------------------------------------------------------------------
-// Pollution sources (known places that may cause smells)
+// Pollution sources (known places that may cause odors)
 // ---------------------------------------------------------------------------
 
 export const CreateSourceRequest = z.object({
@@ -147,7 +147,7 @@ export const PollutionSource = CreateSourceRequest.extend({
 export type PollutionSource = z.infer<typeof PollutionSource>;
 
 // ---------------------------------------------------------------------------
-// Smell reports
+// Odor reports
 // ---------------------------------------------------------------------------
 
 /** Weather at the report's place and time. Filled in by the server. */
@@ -165,48 +165,48 @@ export const Weather = z.object({
 });
 export type Weather = z.infer<typeof Weather>;
 
-/** What the app sends when someone reports a smell. */
+/** What the app sends when someone reports an odor. */
 export const CreateReportRequest = z
   .object({
     location: Point,
     /** GPS accuracy in metres, as reported by the phone. */
     locationAccuracyM: z.number().min(0).optional(),
-    /** When the smell was noticed. The server uses "now" if missing. */
+    /** When the odor was noticed. The server uses "now" if missing. */
     observedAt: Timestamp.optional(),
-    strength: SmellStrengthSchema,
-    smellKind: SmellKindSchema.default('not_set'),
-    /** Free text, only when smellKind is 'other'. */
-    smellKindOther: z.string().trim().min(1).max(100).optional(),
+    strength: OdorStrengthSchema,
+    odorKind: OdorKindSchema.default('not_set'),
+    /** Free text, only when odorKind is 'other'. */
+    odorKindOther: z.string().trim().min(1).max(100).optional(),
     duration: DurationSchema.default('not_set'),
     comment: z.string().trim().max(500).optional(),
     suspectedSourceId: z.uuid().optional(),
   })
-  .refine((r) => r.smellKind !== 'other' || r.smellKindOther !== undefined, {
-    message: 'Describe the smell when choosing "other"',
-    path: ['smellKindOther'],
+  .refine((r) => r.odorKind !== 'other' || r.odorKindOther !== undefined, {
+    message: 'Describe the odor when choosing "other"',
+    path: ['odorKindOther'],
   });
 export type CreateReportRequest = z.infer<typeof CreateReportRequest>;
 
 /** What the reporter can change after sending a report. Send only the fields that change. */
 export const UpdateReportRequest = z
   .object({
-    strength: SmellStrengthSchema.optional(),
-    smellKind: SmellKindSchema.optional(),
-    smellKindOther: z.string().trim().min(1).max(100).optional(),
+    strength: OdorStrengthSchema.optional(),
+    odorKind: OdorKindSchema.optional(),
+    odorKindOther: z.string().trim().min(1).max(100).optional(),
     duration: DurationSchema.optional(),
     comment: z.string().trim().max(500).optional(),
   })
   .refine((r) => Object.values(r).some((value) => value !== undefined), {
     message: 'Nothing to update',
   })
-  .refine((r) => r.smellKind !== 'other' || r.smellKindOther !== undefined, {
-    message: 'Describe the smell when choosing "other"',
-    path: ['smellKindOther'],
+  .refine((r) => r.odorKind !== 'other' || r.odorKindOther !== undefined, {
+    message: 'Describe the odor when choosing "other"',
+    path: ['odorKindOther'],
   });
 export type UpdateReportRequest = z.infer<typeof UpdateReportRequest>;
 
 /** A report as its owner sees it. */
-export const SmellReport = z.object({
+export const OdorReport = z.object({
   id: z.uuid(),
   userId: z.uuid(),
   areaId: z.string(),
@@ -214,29 +214,29 @@ export const SmellReport = z.object({
   observedAt: Timestamp,
   location: Point,
   locationAccuracyM: z.number().optional(),
-  strength: SmellStrengthSchema,
-  smellKind: SmellKindSchema,
-  smellKindOther: z.string().optional(),
+  strength: OdorStrengthSchema,
+  odorKind: OdorKindSchema,
+  odorKindOther: z.string().optional(),
   duration: DurationSchema,
   comment: z.string().optional(),
   suspectedSourceId: z.uuid().optional(),
   /** Missing while the weather service could not be reached. */
   weather: Weather.optional(),
 });
-export type SmellReport = z.infer<typeof SmellReport>;
+export type OdorReport = z.infer<typeof OdorReport>;
 
 /**
  * A report as everyone else sees it: anonymous.
  * No user id or comment, and the location is rounded to about 100 m.
  */
-export const PublicReport = SmellReport.pick({
+export const PublicReport = OdorReport.pick({
   id: true,
   areaId: true,
   observedAt: true,
   location: true,
   strength: true,
-  smellKind: true,
-  smellKindOther: true,
+  odorKind: true,
+  odorKindOther: true,
   duration: true,
   weather: true,
 });
