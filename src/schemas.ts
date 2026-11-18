@@ -150,29 +150,30 @@ export type PollutionSource = z.infer<typeof PollutionSource>;
 // Odor reports
 // ---------------------------------------------------------------------------
 
-/** Weather at the report's place and time. Filled in by the server. */
+/** Weather at the report's place when it was sent. Filled in by the server. */
 export const Weather = z.object({
   /** Wind speed at 10 m, in metres per second. */
   windSpeedMs: z.number(),
   /** Direction the wind blows FROM, in degrees. 0 = north, 90 = east. */
   windDirectionDeg: z.number(),
-  /** Strongest gusts at 10 m, in metres per second. */
-  windGustsMs: z.number(),
   /** Air temperature at 2 m, in degrees Celsius. */
   temperatureC: z.number(),
-  /** The time of the weather reading that was used. */
-  weatherTime: Timestamp,
+  /** Relative humidity at 2 m, in percent. */
+  humidityPercent: z.number(),
+  /** Air pressure at sea level, in hectopascals. */
+  pressureHpa: z.number(),
 });
 export type Weather = z.infer<typeof Weather>;
 
-/** What the app sends when someone reports an odor. */
+/**
+ * What the app sends when someone reports an odor.
+ * Reports are for odors present right now: the server sets the time.
+ */
 export const CreateReportRequest = z
   .object({
     location: Point,
     /** GPS accuracy in metres, as reported by the phone. */
     locationAccuracyM: z.number().min(0).optional(),
-    /** When the odor was noticed. The server uses "now" if missing. */
-    observedAt: Timestamp.optional(),
     strength: OdorStrengthSchema,
     odorKind: OdorKindSchema.default('not_set'),
     /** Free text, only when odorKind is 'other'. */
