@@ -10,6 +10,7 @@ OdorMap lets residents report bad odors from their phones. Each report is stored
 | --- | --- |
 | `src/enums.ts` | Fixed lists of values: odor kinds, strengths, durations, source kinds, languages, roles |
 | `src/schemas.ts` | The shape of every request and response the API accepts or returns, with validation rules |
+| `src/geo.ts` | Location helpers: is a point inside an area? Used by the API and the apps |
 | `src/labels.ts` | Serbian (Latin) and Hungarian words for every fixed value, for showing in the apps |
 | `src/index.ts` | Exports everything above |
 
