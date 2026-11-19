@@ -8,9 +8,8 @@ const validReport = {
 };
 
 describe('CreateReportRequest', () => {
-  it('accepts a minimal report and sets duration to not_set', () => {
-    const report = CreateReportRequest.parse(validReport);
-    expect(report.duration).toBe('not_set');
+  it('accepts a minimal report', () => {
+    expect(CreateReportRequest.safeParse(validReport).success).toBe(true);
   });
 
   it('rejects a strength outside 1 to 5', () => {
@@ -46,7 +45,7 @@ describe('CreateReportRequest', () => {
 describe('UpdateReportRequest', () => {
   it('needs at least one field', () => {
     expect(UpdateReportRequest.safeParse({}).success).toBe(false);
-    expect(UpdateReportRequest.safeParse({ duration: '1_to_3_hours' }).success).toBe(true);
+    expect(UpdateReportRequest.safeParse({ comment: 'Still there' }).success).toBe(true);
   });
 
   it('can change strength and odor kind', () => {

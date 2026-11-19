@@ -9,7 +9,6 @@
 
 import { z } from 'zod';
 import {
-  DURATIONS,
   LANGUAGES,
   ROLES,
   ODOR_KINDS,
@@ -40,7 +39,6 @@ const Timestamp = z.iso.datetime();
 // enums.ts already uses the plain names for the TypeScript types.
 export const OdorKindSchema = z.enum(ODOR_KINDS);
 export const OdorStrengthSchema = z.union(ODOR_STRENGTHS.map((n) => z.literal(n)));
-export const DurationSchema = z.enum(DURATIONS);
 export const SourceKindSchema = z.enum(SOURCE_KINDS);
 export const LanguageSchema = z.enum(LANGUAGES);
 export const RoleSchema = z.enum(ROLES);
@@ -193,7 +191,6 @@ export const CreateReportRequest = z
     odorKind: OdorKindSchema.default('not_set'),
     /** Free text, only when odorKind is 'other'. */
     odorKindOther: z.string().trim().min(1).max(100).optional(),
-    duration: DurationSchema.default('not_set'),
     comment: z.string().trim().max(500).optional(),
     suspectedSourceId: z.uuid().optional(),
   })
@@ -209,7 +206,6 @@ export const UpdateReportRequest = z
     strength: OdorStrengthSchema.optional(),
     odorKind: OdorKindSchema.optional(),
     odorKindOther: z.string().trim().min(1).max(100).optional(),
-    duration: DurationSchema.optional(),
     comment: z.string().trim().max(500).optional(),
   })
   .refine((r) => Object.values(r).some((value) => value !== undefined), {
@@ -233,7 +229,6 @@ export const OdorReport = z.object({
   strength: OdorStrengthSchema,
   odorKind: OdorKindSchema,
   odorKindOther: z.string().optional(),
-  duration: DurationSchema,
   comment: z.string().optional(),
   suspectedSourceId: z.uuid().optional(),
   /** Missing while the weather service could not be reached. */
@@ -253,7 +248,6 @@ export const PublicReport = OdorReport.pick({
   strength: true,
   odorKind: true,
   odorKindOther: true,
-  duration: true,
   weather: true,
 });
 export type PublicReport = z.infer<typeof PublicReport>;
