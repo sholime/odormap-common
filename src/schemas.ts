@@ -237,8 +237,9 @@ export const OdorReport = z.object({
 export type OdorReport = z.infer<typeof OdorReport>;
 
 /**
- * A report as everyone else sees it: anonymous.
- * No user id or comment, and the location is rounded to about 100 m.
+ * A report as everyone sees it: anonymous.
+ * No user id, and the location is rounded to about 100 m. The comment is public.
+ * isMine tells the person asking which reports are their own, without showing who wrote the others.
  */
 export const PublicReport = OdorReport.pick({
   id: true,
@@ -248,8 +249,9 @@ export const PublicReport = OdorReport.pick({
   strength: true,
   odorKind: true,
   odorKindOther: true,
+  comment: true,
   weather: true,
-});
+}).extend({ isMine: z.boolean() });
 export type PublicReport = z.infer<typeof PublicReport>;
 
 /** Filters for listing reports, sent as URL query parameters. */
