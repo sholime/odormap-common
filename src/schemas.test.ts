@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { CreateReportRequest, GuestLoginRequest, RegisterRequest, ReportsQuery, UpdateReportRequest } from './schemas.js';
+import {
+  CreateReportRequest,
+  GuestLoginRequest,
+  PublicReport,
+  RegisterRequest,
+  ReportsQuery,
+  UpdateReportRequest,
+} from './schemas.js';
 
 const validReport = {
   location: { lat: 45.8155, lon: 19.6318 },
@@ -82,5 +89,23 @@ describe('ReportsQuery', () => {
       minLat: '45.7',
     });
     expect(query.minLat).toBe(45.7);
+  });
+});
+
+describe('PublicReport', () => {
+  it('has the comment and isMine, but no user id', () => {
+    const report = PublicReport.parse({
+      id: '019a9a3c-6b1e-7000-8000-0000000000bb',
+      userId: '019a9a3c-6b1e-7000-8000-0000000000aa',
+      areaId: 'backa-topola',
+      observedAt: '2026-11-24T19:14:00Z',
+      location: { lat: 45.816, lon: 19.632 },
+      strength: 4,
+      odorKind: 'rotten_meat',
+      comment: 'Kod škole',
+      isMine: true,
+    });
+    expect(report).toMatchObject({ comment: 'Kod škole', isMine: true });
+    expect(report).not.toHaveProperty('userId');
   });
 });
