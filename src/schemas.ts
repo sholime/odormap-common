@@ -116,6 +116,28 @@ export const UpdateMeRequest = z.object({
 });
 export type UpdateMeRequest = z.infer<typeof UpdateMeRequest>;
 
+/** How someone signs in: with an email and password, with Google, or both. Empty for guests. */
+export const SignInMethodSchema = z.enum(['password', 'google']);
+export type SignInMethod = z.infer<typeof SignInMethodSchema>;
+
+/** A user as admins see them on the "Users" screen. */
+export const AdminUser = User.extend({
+  signInMethods: z.array(SignInMethodSchema),
+  /** A blocked user can still log in, but cannot send reports. */
+  blocked: z.boolean(),
+  reportCount: z.number().int().min(0),
+  /** Missing when the user has sent no reports. */
+  lastReportAt: Timestamp.optional(),
+});
+export type AdminUser = z.infer<typeof AdminUser>;
+
+/** What an admin can change about another user. */
+export const UpdateUserRequest = z.object({
+  role: RoleSchema.optional(),
+  blocked: z.boolean().optional(),
+});
+export type UpdateUserRequest = z.infer<typeof UpdateUserRequest>;
+
 // ---------------------------------------------------------------------------
 // Areas (towns or regions the app covers)
 // ---------------------------------------------------------------------------

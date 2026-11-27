@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  AdminUser,
+  UpdateUserRequest,
   CreateReportRequest,
   GuestLoginRequest,
   PublicReport,
@@ -107,5 +109,38 @@ describe('PublicReport', () => {
     });
     expect(report).toMatchObject({ comment: 'Kod škole', isMine: true });
     expect(report).not.toHaveProperty('userId');
+  });
+});
+
+describe('AdminUser', () => {
+  const user = {
+    id: '019a9a3c-6b1e-7000-8000-000000000001',
+    isGuest: true,
+    displayName: 'Gost',
+    language: 'sr',
+    role: 'user',
+    createdAt: '2026-11-25T10:00:00Z',
+    signInMethods: [],
+    blocked: false,
+    reportCount: 0,
+  };
+
+  it('accepts a guest with no reports', () => {
+    expect(AdminUser.safeParse(user).success).toBe(true);
+  });
+
+  it('rejects an unknown sign-in method', () => {
+    expect(AdminUser.safeParse({ ...user, signInMethods: ['facebook'] }).success).toBe(false);
+  });
+});
+
+describe('UpdateUserRequest', () => {
+  it('accepts a role or blocked', () => {
+    expect(UpdateUserRequest.safeParse({ role: 'admin' }).success).toBe(true);
+    expect(UpdateUserRequest.safeParse({ blocked: true }).success).toBe(true);
+  });
+
+  it('rejects an unknown role', () => {
+    expect(UpdateUserRequest.safeParse({ role: 'owner' }).success).toBe(false);
   });
 });
