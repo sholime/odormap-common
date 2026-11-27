@@ -259,9 +259,21 @@ export const OdorReport = z.object({
 export type OdorReport = z.infer<typeof OdorReport>;
 
 /**
+ * Who sent a report. Only admins get it, to check reports and stop misuse.
+ * No displayName when the account was deleted; no email for guests.
+ */
+export const ReportAuthor = z.object({
+  id: z.uuid(),
+  displayName: z.string().optional(),
+  email: z.email().optional(),
+});
+export type ReportAuthor = z.infer<typeof ReportAuthor>;
+
+/**
  * A report as everyone sees it: anonymous.
- * No user id, and the location is rounded to about 100 m. The comment is public.
+ * No user id, and the location is rounded to about 200 m. The comment is public.
  * isMine tells the person asking which reports are their own, without showing who wrote the others.
+ * author is only there for admins.
  */
 export const PublicReport = OdorReport.pick({
   id: true,
@@ -273,7 +285,7 @@ export const PublicReport = OdorReport.pick({
   odorKindOther: true,
   comment: true,
   weather: true,
-}).extend({ isMine: z.boolean() });
+}).extend({ isMine: z.boolean(), author: ReportAuthor.optional() });
 export type PublicReport = z.infer<typeof PublicReport>;
 
 /** Filters for listing reports, sent as URL query parameters. */

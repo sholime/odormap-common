@@ -110,6 +110,21 @@ describe('PublicReport', () => {
     expect(report).toMatchObject({ comment: 'Kod škole', isMine: true });
     expect(report).not.toHaveProperty('userId');
   });
+
+  it('can carry the author, for admins', () => {
+    const author = { id: '019a9a3c-6b1e-7000-8000-0000000000aa', displayName: 'Ana', email: 'ana@example.com' };
+    const report = PublicReport.parse({
+      id: '019a9a3c-6b1e-7000-8000-0000000000bb',
+      areaId: 'backa-topola',
+      observedAt: '2026-11-24T19:14:00Z',
+      location: { lat: 45.816, lon: 19.632 },
+      strength: 4,
+      odorKind: 'rotten_meat',
+      isMine: false,
+      author,
+    });
+    expect(report.author).toEqual(author);
+  });
 });
 
 describe('AdminUser', () => {
